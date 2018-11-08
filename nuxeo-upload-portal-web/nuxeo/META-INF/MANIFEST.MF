@@ -1,0 +1,9 @@
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .
+Manifest-Version: 1.0
+Bundle-Vendor: org.nuxeo.labs
+Bundle-Version: 1.0.0
+Bundle-Name: nuxeo-upload-portal-web
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: org.nuxeo.labs.nuxeo-upload-portal-web;singleton=true
+Nuxeo-Component: OSGI-INF/up-auth-contrib.xml
