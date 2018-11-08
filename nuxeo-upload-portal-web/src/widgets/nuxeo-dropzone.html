@@ -205,10 +205,10 @@
         this.connection = this.$.nx;
         this.setupDropZone(this.$.dropzone);
         if (!this.message) {
-          this.message = this.i18n('dropzone.add');
+          this.message = this.i18n('Drag and drop, or click to select files to upload.');
         }
-        this.uploadedMessage = this.i18n('dropzone.uploaded');
-        this.progressMessage = this.i18n('dropzone.progress');
+        this.uploadedMessage = this.i18n('Uploaded');
+        this.progressMessage = this.i18n('In Progress');
       },
 
       detached: function() {
