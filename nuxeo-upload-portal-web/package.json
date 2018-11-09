@@ -17,7 +17,7 @@
     "test:integration": "polymer build # test that psk builds without error with the CLI",
     "clean": "rimraf build target",
     "prebuild": "npm run clean",
-    "build": "npm run lint && polymer build",
+    "build": "polymer build",
     "postbuild": "npm run nuxeo",
     "prenuxeo": "mkdirp target/classes/nuxeo.war/up",
     "nuxeo": "cpr build/es5-bundled/ target/classes/nuxeo.war/up -o && cpr nuxeo/ target/classes/ -o",
