@@ -85,6 +85,12 @@
         margin: 1em 2em 5em;
       }
 
+      #dropzonePrompt {
+        font-style: "Adobe Garamond Pro",serif;
+        margin-left: 32px;
+        padding-top: 12px;
+      }
+
       #form {
         padding: 0 32px;
       }
@@ -287,6 +293,8 @@
 
       <!--Stage: allow the user to upload files-->
       <div name="upload" class="upload vertical layout flex" tabindex="0">
+
+        <div id="dropzonePrompt">Drag and drop the file(s) to upload, then click the "Import" button</div>
 
         <div id="dropzone" class="vertical layout flex">
           <input hidden id="uploadFiles" type="file" on-change="_filesChanged" multiple>

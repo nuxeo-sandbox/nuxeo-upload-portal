@@ -22,6 +22,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="my-icons.html">
 
+<link rel="import" href="../../bower_components/nuxeo-elements/nuxeo-connection.html">
+<link rel="import" href="../bower_components/nuxeo-elements/nuxeo-operation.html">"
+
 <link rel="lazy-import" href="my-view1.html">
 <link rel="lazy-import" href="my-view404.html">
 
@@ -44,6 +47,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-color: var(--app-primary-color);
       }
 
+      #portalToolbar {
+        background-color: rgb(245, 245, 245);
+        color: black;
+        min-height: 200px;
+      }
+
       app-header paper-icon-button {
         --paper-icon-button-ink-color: white;
       }
@@ -64,7 +73,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: black;
         font-weight: bold;
       }
+
+      .headerFontMain {
+        font-family: "Adobe Garamond Pro",serif;
+        font-weight: 400;
+        font-style: normal;
+        color: #5c5f61;
+        letter-spacing: 0em;
+        text-transform: capitalize;
+
+        font-size: 1.4em;
+        margin-top: 1.8em;
+        margin-left: 0.5em;
+
+      }
+
+      .headerSmaller {
+        font-family: "proxima-nova-light",sans-serif;
+        font-weight: 300;
+        font-size: 1.4em;
+        letter-spacing: 0.1em;
+        font-size: 0.9rem;
+
+      }
     </style>
+
+    <!-- Getting a minimum config from the server to avoid creating
+         a private Github repo for the the demo to a specific client.
+         See the README of the plugin
+    -->
+    <nuxeo-connection id="nx" user={{user}}></nuxeo-connection>
+    <nuxeo-operation id="getConfigOp" op="javascript.PORTAL_GetConfig""></nuxeo-operation>
 
     <app-location
         route="{{route}}"
@@ -91,9 +130,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-header-layout has-scrolling-region>
 
         <app-header slot="header" condenses reveals effects="waterfall">
-          <app-toolbar>
+          <app-toolbar id="portalToolbar">
             <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
-            <div main-title>My Portal</div>
+            <img src="[[portalConfig.headerLogoUrl]]">
+            <div main-title class="headerFontMain">[[portalConfig.headerTitle]]<br><span class="headerSmaller">[[portalConfig.headerSubtitle]]</span></div>
           </app-toolbar>
         </app-header>
 
@@ -125,6 +165,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           // This shouldn't be neccessary, but the Analyzer isn't picking up
           // Polymer.Element#rootPath
           rootPath: String,
+          user: {
+            type: Object,
+            observer: '_userChanged',
+          },
+          defaultPortalConfig: {
+            type: Object,
+            value: {
+              headerLogoUrl: "../images/favicon.ico",
+              headerTitle: "My Portal",
+              headerSubtitle: "",
+            }
+          }
         };
       }
 
@@ -132,6 +184,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return [
           '_routePageChanged(routeData.page)',
         ];
+      }
+
+      _userChanged(value, v) {
+        if(value) {
+          let op = this.$.getConfigOp;
+          op.execute()
+            .then((data) => {
+              this.portalConfig = data;
+            })
+            .catch((err) => {
+              this.portalConfig = this.defaultPortalConfig;
+            })
+        }
       }
 
       _routePageChanged(page) {
